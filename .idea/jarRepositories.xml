@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="geostack_1" />
+      <option name="name" value="geostack_1" />
+      <option name="url" value="http://192.168.100.154:8081/repository/geostack/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="bigdatacenter_1" />
+      <option name="name" value="bigdatacenter_1" />
+      <option name="url" value="http://192.168.100.154:8081/repository/bigdatacenter/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="http://maven.aliyun.com/nexus/content/repositories/central/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="local-nexus2" />
+      <option name="name" value="local-nexus2" />
+      <option name="url" value="https://maven.aliyun.com/repository/public" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="local-maven2" />
+      <option name="name" value="local-maven2" />
+      <option name="url" value="https://repo.maven.apache.org/maven2/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="geosmarter" />
+      <option name="name" value="geosmarter" />
+      <option name="url" value="http://192.168.100.154:8081/repository/geosmater/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="geoglobe" />
+      <option name="name" value="geoglobe" />
+      <option name="url" value="http://192.168.100.154:8081/repository/geoglobe/" />
+    </remote-repository>
+  </component>
+</project>
