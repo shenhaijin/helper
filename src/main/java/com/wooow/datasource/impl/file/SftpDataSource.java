@@ -1,12 +1,12 @@
 package com.wooow.datasource.impl.file;
 
-import cn.hutool.core.util.StrUtil;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.wooow.datasource.AbstractDataSource;
 import com.wooow.datasource.ConnectionConfig;
 import com.wooow.datasource.config.SftpConfig;
+import com.wooow.helper.StrHelper;
 
 
 import java.util.Properties;
@@ -35,7 +35,7 @@ public class SftpDataSource extends AbstractDataSource<SftpConfig> {
         try {
             session =
                     jsch.getSession(connConfig.getUsername(),connConfig.getIp(),Integer.parseInt(connConfig.getPort()));
-            if(StrUtil.isNotBlank(connConfig.getPassword())){
+            if(StrHelper.isNotBlank(connConfig.getPassword())){
                 session.setPassword(connConfig.getPassword());
             }
             Properties config = new Properties();
@@ -61,6 +61,6 @@ public class SftpDataSource extends AbstractDataSource<SftpConfig> {
 
     @Override
     public String getUrl(SftpConfig connConfig) throws Exception {
-        return StrUtil.concat(true, connConfig.getIp(),":", connConfig.getPort(), "?username=",connConfig.getUsername());
+        return StrHelper.concat(true, connConfig.getIp(),":", connConfig.getPort(), "?username=",connConfig.getUsername());
     }
 }

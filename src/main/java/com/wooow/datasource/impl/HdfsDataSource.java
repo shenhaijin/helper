@@ -1,10 +1,10 @@
 package com.wooow.datasource.impl;
 
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.StrUtil;
 import com.wooow.datasource.AbstractDataSource;
 import com.wooow.datasource.ConnectionConfig;
 import com.wooow.datasource.config.HdfsConfig;
+import com.wooow.helper.IoHelper;
+import com.wooow.helper.StrHelper;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -30,7 +30,7 @@ public class HdfsDataSource extends AbstractDataSource<HdfsConfig> {
         boolean defaultResult = false;
         FileSystem fs = null;
         try {
-            String hdfsUrl = StrUtil.concat(true,"hdfs://", connConfig.getIp(), connConfig.getPort());
+            String hdfsUrl = StrHelper.concat(true,"hdfs://", connConfig.getIp(), connConfig.getPort());
             Configuration conf = new Configuration();
             conf.set("fs.defaultFS", hdfsUrl);
             fs = FileSystem.get(URI.create(hdfsUrl), conf, connConfig.getUsername());
@@ -40,13 +40,13 @@ public class HdfsDataSource extends AbstractDataSource<HdfsConfig> {
         }catch (Throwable ex){
             ex.getLocalizedMessage();
         }finally {
-            IoUtil.close(fs);
+            IoHelper.close(fs);
         }
         return defaultResult;
     }
 
     @Override
     public String getUrl(HdfsConfig connConfig) throws Exception {
-        return StrUtil.concat(true,"hdfs://", connConfig.getIp(), ":",connConfig.getPort(),connConfig.getDataBaseName(),"?username=",connConfig.getUsername());
+        return StrHelper.concat(true,"hdfs://", connConfig.getIp(), ":",connConfig.getPort(),connConfig.getDataBaseName(),"?username=",connConfig.getUsername());
     }
 }

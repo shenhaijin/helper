@@ -1,11 +1,11 @@
 package com.wooow.datasource.impl.file;
 
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.wooow.datasource.config.OwnCloudConfig;
 import com.wooow.datasource.AbstractDataSource;
 import com.wooow.datasource.ConnectionConfig;
+import com.wooow.helper.StrHelper;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -53,10 +53,10 @@ public class OwnCloudDataSource extends AbstractDataSource<OwnCloudConfig> {
         HttpEntity entity = response.getEntity();
         if (entity != null) {
             String data = EntityUtils.toString(entity, "UTF-8").toString();
-            if (StrUtil.isNotBlank(data)) {
+            if (StrHelper.isNotBlank(data)) {
                 JSONObject jsonObject = JSONUtil.parseObj(data);
                 String status = jsonObject.getStr("status");
-                if(!StrUtil.equalsIgnoreCase(status,"error")){
+                if(!StrHelper.equalsIgnoreCase(status,"error")){
                     defaultResult = true;
                 }
             } else { // 适配V5.2及V6.0升级后，关于网盘连接及获取数据列表功能的适配
@@ -67,7 +67,7 @@ public class OwnCloudDataSource extends AbstractDataSource<OwnCloudConfig> {
                 HttpEntity entityfor60 = response.getEntity();
                 if (entityfor60 != null) {
                     String otherData = EntityUtils.toString(entityfor60, "UTF-8").toString();
-                    if (StrUtil.isNotBlank(otherData)) {
+                    if (StrHelper.isNotBlank(otherData)) {
                         defaultResult = true;
                     } else {
                         // 当此环境网盘对应的用户系统和cas暂未升级至v6.2及更高版本时，直接将网盘密码不做加密处理传输
@@ -78,7 +78,7 @@ public class OwnCloudDataSource extends AbstractDataSource<OwnCloudConfig> {
                         HttpEntity otherEntityfor60 = response.getEntity();
                         if (otherEntityfor60 != null) {
                             otherData =  EntityUtils.toString(otherEntityfor60, "UTF-8").toString();
-                            if (StrUtil.isNotBlank(otherData)) {
+                            if (StrHelper.isNotBlank(otherData)) {
                                 defaultResult = true;
                             }
                         }
@@ -92,6 +92,6 @@ public class OwnCloudDataSource extends AbstractDataSource<OwnCloudConfig> {
 
     @Override
     public String getUrl(OwnCloudConfig connConfig) throws Exception {
-        return StrUtil.concat(true, "http://",connConfig.getIp(),":", connConfig.getPort(), "/owncloud?username=",connConfig.getUsername());
+        return StrHelper.concat(true, "http://",connConfig.getIp(),":", connConfig.getPort(), "/owncloud?username=",connConfig.getUsername());
     }
 }

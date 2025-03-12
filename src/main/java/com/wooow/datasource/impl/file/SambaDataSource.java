@@ -1,6 +1,5 @@
 package com.wooow.datasource.impl.file;
 
-import cn.hutool.core.util.StrUtil;
 
 import com.hierynomus.smbj.SMBClient;
 import com.hierynomus.smbj.auth.AuthenticationContext;
@@ -10,6 +9,7 @@ import com.hierynomus.smbj.share.DiskShare;
 import com.wooow.datasource.AbstractDataSource;
 import com.wooow.datasource.ConnectionConfig;
 import com.wooow.datasource.config.SambaConfig;
+import com.wooow.helper.StrHelper;
 import jcifs.smb.SmbFile;
 
 public class SambaDataSource extends AbstractDataSource<SambaConfig> {
@@ -64,6 +64,6 @@ public class SambaDataSource extends AbstractDataSource<SambaConfig> {
 
     @Override
     public String getUrl(SambaConfig connConfig) throws Exception {
-        return StrUtil.concat(true,"smb://", connConfig.getUsername(), "@",connConfig.getIp(),":", connConfig.getPort(),"/",connConfig.getDataBaseName(),"?username=",connConfig.getUsername());
+        return StrHelper.concat(true,"smb://", connConfig.getUsername(), "@",connConfig.getIp(),":", connConfig.getPort(),"/",connConfig.getDataBaseName(),"?username=",connConfig.getUsername());
     }
 }

@@ -1,10 +1,10 @@
 package com.wooow.datasource.impl.jdbc;
 
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.StrUtil;
 import com.wooow.datasource.AbstractDataSource;
 import com.wooow.datasource.ConnectionConfig;
 import com.wooow.datasource.config.JdbcConfig;
+import com.wooow.helper.IoHelper;
+import com.wooow.helper.StrHelper;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -25,11 +25,11 @@ public abstract class AbstractJdbcDataSource extends AbstractDataSource<JdbcConf
     }
     @Override
     public String getVersion(JdbcConfig connConfig) throws Exception {
-        if(StrUtil.isBlank(dbVersion)){
+        if(StrHelper.isBlank(dbVersion)){
             Connection connection = null;
             try {
                 String jdbcUrl = connConfig.getClusterUrl();
-                if(StrUtil.isBlank(jdbcUrl)){
+                if(StrHelper.isBlank(jdbcUrl)){
                     jdbcUrl = getJdbcUrl(connConfig);
                 }
                 connection = DriverManager.getConnection(jdbcUrl, connConfig.getUsername(), connConfig.getPassword());
@@ -38,7 +38,7 @@ public abstract class AbstractJdbcDataSource extends AbstractDataSource<JdbcConf
             }catch (Throwable ex){
                 ex.getLocalizedMessage();
             }finally {
-                IoUtil.close(connection);
+                IoHelper.close(connection);
             }
         }
         return dbVersion;
@@ -50,7 +50,7 @@ public abstract class AbstractJdbcDataSource extends AbstractDataSource<JdbcConf
         Connection connection = null;
         try {
             String jdbcUrl = connConfig.getClusterUrl();
-            if(StrUtil.isBlank(jdbcUrl)){
+            if(StrHelper.isBlank(jdbcUrl)){
                 jdbcUrl = getJdbcUrl(connConfig);
             }
             connection = DriverManager.getConnection(jdbcUrl, connConfig.getUsername(), connConfig.getPassword());
@@ -60,7 +60,7 @@ public abstract class AbstractJdbcDataSource extends AbstractDataSource<JdbcConf
         }catch (Throwable ex){
             ex.getLocalizedMessage();
         }finally {
-            IoUtil.close(connection);
+            IoHelper.close(connection);
         }
         return defaultResult;
     }

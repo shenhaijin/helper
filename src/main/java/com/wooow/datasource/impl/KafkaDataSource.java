@@ -1,10 +1,10 @@
 package com.wooow.datasource.impl;
 
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.StrUtil;
 import com.wooow.datasource.AbstractDataSource;
 import com.wooow.datasource.ConnectionConfig;
 import com.wooow.datasource.config.KafkaConfig;
+import com.wooow.helper.IoHelper;
+import com.wooow.helper.StrHelper;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.ListTopicsOptions;
 import org.apache.kafka.clients.admin.ListTopicsResult;
@@ -40,13 +40,13 @@ public class KafkaDataSource extends AbstractDataSource<KafkaConfig> {
         } catch (Throwable ex) {
             ex.getLocalizedMessage();
         } finally {
-            IoUtil.close(kafkaClient);
+            IoHelper.close(kafkaClient);
         }
         return defaultResult;
     }
 
     @Override
     public String getUrl(KafkaConfig connConfig) throws Exception {
-        return StrUtil.concat(true,"http://",connConfig.getIp(),":",connConfig.getPort());
+        return StrHelper.concat(true,"http://",connConfig.getIp(),":",connConfig.getPort());
     }
 }

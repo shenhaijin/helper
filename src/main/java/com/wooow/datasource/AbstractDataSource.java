@@ -1,6 +1,5 @@
 package com.wooow.datasource;
 
-
 public abstract class AbstractDataSource<C extends IConnConfig> implements IDataSource {
     protected C connConfig;
 

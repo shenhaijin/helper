@@ -6,15 +6,6 @@ package com.wooow.datasource;
 public class IConnConfig {
     protected String ip;
     protected String port;
-//    protected String version;
-//
-//    public String getVersion() {
-//        return version;
-//    }
-//
-//    public void setVersion(String version) {
-//        this.version = version;
-//    }
 
     public String getIp() {
         return ip;

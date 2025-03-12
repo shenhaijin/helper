@@ -1,10 +1,10 @@
 package com.wooow.datasource.impl.file;
 
-import cn.hutool.core.util.StrUtil;
 
 import com.wooow.datasource.config.FtpConfig;
 import com.wooow.datasource.AbstractDataSource;
 import com.wooow.datasource.ConnectionConfig;
+import com.wooow.helper.StrHelper;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 
@@ -30,7 +30,7 @@ public class FtpDataSource extends AbstractDataSource<FtpConfig> {
         try {
             ftpClient.setControlEncoding("UTF-8");
             ftpClient.connect(connConfig.getIp(), Integer.parseInt(connConfig.getPort()));// 连接FTP服务器
-            if(StrUtil.isAllNotBlank(connConfig.getUsername(), connConfig.getPassword())){
+            if(StrHelper.isNotBlank(connConfig.getUsername()) && StrHelper.isNotBlank(connConfig.getPassword())){
                 // 设置被动模式
                 ftpClient.enterLocalPassiveMode();
                 if(ftpClient.login(connConfig.getUsername(), connConfig.getPassword())){
@@ -50,6 +50,6 @@ public class FtpDataSource extends AbstractDataSource<FtpConfig> {
 
     @Override
     public String getUrl(FtpConfig connConfig) throws Exception {
-        return StrUtil.concat(true, connConfig.getIp(),":", connConfig.getPort(), "?username=",connConfig.getUsername());
+        return StrHelper.concat(true, connConfig.getIp(),":", connConfig.getPort(), "?username=",connConfig.getUsername());
     }
 }

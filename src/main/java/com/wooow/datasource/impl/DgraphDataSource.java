@@ -1,8 +1,5 @@
 package com.wooow.datasource.impl;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
@@ -11,6 +8,9 @@ import com.wooow.datasource.AbstractDataSource;
 import com.wooow.datasource.ConnectionConfig;
 import com.wooow.datasource.config.DgraphCert;
 import com.wooow.datasource.config.DgraphConfig;
+import com.wooow.helper.CollHelper;
+import com.wooow.helper.ObjectHelper;
+import com.wooow.helper.StrHelper;
 import io.dgraph.DgraphClient;
 import io.dgraph.DgraphGrpc;
 import io.grpc.*;
@@ -37,7 +37,7 @@ public class DgraphDataSource extends AbstractDataSource<DgraphConfig> {
 
     @Override
     public String getVersion(DgraphConfig connConfig) throws Exception {
-        if(StrUtil.isBlank(version)){
+        if(StrHelper.isBlank(version)){
             connect(connConfig);
         }
         return version;
@@ -47,7 +47,7 @@ public class DgraphDataSource extends AbstractDataSource<DgraphConfig> {
     public boolean connect(DgraphConfig connConfig) throws Exception {
         boolean defaultResult = false;
         ManagedChannel channel = null;
-        if(CollUtil.isNotEmpty(connConfig.getCertList())){
+        if(CollHelper.isNotEmpty(connConfig.getCertList())){
             InputStream rootCertInputStream = null;
             InputStream userCertInputStream = null;
             InputStream userCertKeyInputStream = null;
@@ -55,15 +55,15 @@ public class DgraphDataSource extends AbstractDataSource<DgraphConfig> {
                 String base64Data = cert.getData();  // 获取经Base64加密的二进制字符串
                 byte[] fileBytes = Base64.getDecoder().decode(base64Data);  // 使用 Hutool 解码字符串为字节流
                 String certType = cert.getType();
-                if (StrUtil.equalsIgnoreCase(certType, "root")) {
+                if (StrHelper.equalsIgnoreCase(certType, "root")) {
                     rootCertInputStream = new ByteArrayInputStream(fileBytes);
-                } else if (StrUtil.equalsIgnoreCase(certType, "user")) {
+                } else if (StrHelper.equalsIgnoreCase(certType, "user")) {
                     userCertInputStream = new ByteArrayInputStream(fileBytes);
-                } else if (StrUtil.equalsIgnoreCase(certType, "key")) {
+                } else if (StrHelper.equalsIgnoreCase(certType, "key")) {
                     userCertKeyInputStream = new ByteArrayInputStream(fileBytes);
                 }
             }
-            if(ObjectUtil.isNull(rootCertInputStream) || ObjectUtil.isNull(userCertInputStream) || ObjectUtil.isNull(userCertKeyInputStream)){
+            if(ObjectHelper.isNull(rootCertInputStream) || ObjectHelper.isNull(userCertInputStream) || ObjectHelper.isNull(userCertKeyInputStream)){
                 return defaultResult;
             }
             SslContextBuilder builder = GrpcSslContexts.forClient();
@@ -80,7 +80,7 @@ public class DgraphDataSource extends AbstractDataSource<DgraphConfig> {
             HttpRequest httpRequest = HttpUtil.createPost("http://" + connConfig.getIp() + ":" + connConfig.getPort());
             httpRequest.body("schema {}", ContentType.FORM_URLENCODED.getValue());
             HttpResponse response = httpRequest.execute();
-            if(ObjectUtil.isNull(response) || response.getStatus() != 200){
+            if(ObjectHelper.isNull(response) || response.getStatus() != 200){
                 return defaultResult;
             }
         }
@@ -102,6 +102,6 @@ public class DgraphDataSource extends AbstractDataSource<DgraphConfig> {
 
     @Override
     public String getUrl(DgraphConfig connConfig) throws Exception {
-        return StrUtil.concat(true,"http://",connConfig.getIp(),":",connConfig.getPort());
+        return StrHelper.concat(true,"http://",connConfig.getIp(),":",connConfig.getPort());
     }
 }

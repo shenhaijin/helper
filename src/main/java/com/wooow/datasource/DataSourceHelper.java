@@ -1,8 +1,6 @@
 package com.wooow.datasource;
 
 
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ObjectUtil;
 import com.wooow.datasource.impl.file.FtpDataSource;
 import com.wooow.datasource.impl.file.SambaDataSource;
 import com.wooow.datasource.impl.file.SftpDataSource;
@@ -13,6 +11,8 @@ import com.wooow.datasource.impl.DgraphDataSource;
 import com.wooow.datasource.impl.HdfsDataSource;
 import com.wooow.datasource.impl.KafkaDataSource;
 import com.wooow.datasource.impl.jdbc.*;
+import com.wooow.helper.MapHelper;
+import com.wooow.helper.ObjectHelper;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import java.util.Map;
 public class DataSourceHelper {
     private static Map<String,Class<? extends IDataSource>> CLASS_MAP = new HashMap<String,Class<? extends IDataSource>>();
     static {
-        MapUtil.clear(CLASS_MAP);
+        MapHelper.clear(CLASS_MAP);
         CLASS_MAP.put("mysql", MySQLDataSource.class);
         CLASS_MAP.put("oracle", OracleDataSource.class);
         CLASS_MAP.put("postgresql", PostGresDataSource.class);
@@ -45,8 +45,8 @@ public class DataSourceHelper {
     }
 
     public static void init(Map<String,Class<? extends IDataSource>> clzMap){
-        if(MapUtil.isNotEmpty(clzMap)){
-            MapUtil.clear(CLASS_MAP);
+        if(MapHelper.isNotEmpty(clzMap)){
+            MapHelper.clear(CLASS_MAP);
             CLASS_MAP = clzMap;
         }
     }
@@ -54,7 +54,7 @@ public class DataSourceHelper {
         IDataSource dataSource = null;
         String type = connectionConfig.getType();
         Class<? extends IDataSource> clazz = CLASS_MAP.get(type);
-        if(ObjectUtil.isNotNull(clazz)){
+        if(ObjectHelper.isNotNull(clazz)){
             Constructor<?>  constructor = clazz.getDeclaredConstructor(ConnectionConfig.class);
             dataSource = (IDataSource) constructor.newInstance(connectionConfig);
         }
